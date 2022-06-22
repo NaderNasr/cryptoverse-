@@ -22,6 +22,7 @@ const Currencies = ({ simplified }) => {
 
   // console.log('cryptos', cryptos)
   if (isFetching) { return 'loading...' }
+
   return (
     <>
       {simplified ?
@@ -30,14 +31,14 @@ const Currencies = ({ simplified }) => {
         </div>
       }
       <Row gutter={[32, 32]} className='crypto-card-container'>
-        {cryptos?.map((crypto) => (
+        {cryptos?.map((crypto, id) => (
           <Col xs={24} sm={12} lg={6} className='crypto-card' key={crypto.uuid}>
-            <Link to={`/crypto/${crypto.id}`} key={crypto.uuid}>
-              <Card title={`${crypto.rank}. ${crypto.name}`} extra={<img className='crypto-image' src={crypto.iconUrl} alt={crypto.name}  style={{width:'50px'}}/>} hoverable>
+          {/* {console.log(crypto.uuid)} */}
+            <Link to={`/details/${crypto.uuid}`} key={crypto.uuid}>
+              <Card title={`${crypto.name}`} extra={<img className='crypto-image' src={crypto.iconUrl} alt={crypto.name}  style={{width:'50px'}}/>} hoverable>
                 <p>Price: {millify(crypto.price)}</p>
                 <p>Market Capital: {millify(crypto.marketCap)}</p>
                 <p>Daily Change: {millify(crypto.change)}%</p>
-
               </Card>
             </Link>
           </Col>

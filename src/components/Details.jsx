@@ -15,7 +15,7 @@ const Details = () => {
   const [timePeriod, setTimePeriod] = useState('7 Days');
   // console.log(coinId + 'params')
   const { data, isFetching } = useGetCryptosDetailsQuery(coinId);
-  const { data: coinHistory } = useGetCryptosDetailsQuery({ coinId, timePeriod });
+  const { data: coinHistory } = useGetCryptoHistoryQuery({ coinId, timePeriod });
 
   const cryptoDetails = data?.data?.coin;
   // console.log(data)
@@ -53,7 +53,6 @@ const Details = () => {
       {/* LineChart Start */}
       <LineChart coinHistory={coinHistory} currentPrice={millify(cryptoDetails?.price)} coinName={cryptoDetails?.name} />
       {/* LineChart End */}
-      {console.log(coinHistory)}
 
       <Col className='stats-container'>
         <Col className='coin-value-statistics'>

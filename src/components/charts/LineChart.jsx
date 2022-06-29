@@ -1,10 +1,50 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Col, Row, Typography } from 'antd';
+import { Chart, registerables } from 'chart.js';
+import moment from 'moment';
+Chart.register(...registerables);
 
 const { Title } = Typography;
 
 const LineChart = ({ coinHistory, currentPrice, coinName }) => {
+
+  // console.log('coinHistory ==>>', Date)
+
+  const coinPrice = [];
+  const coinTimestamp = [];
+
+  for (let i = 0; i < coinHistory?.data?.history?.length; i++) {
+    const year = Date(coinHistory?.data?.history[i].timestamp)
+    coinPrice.push(coinHistory?.data?.history[i].price);
+    coinTimestamp.push(moment(year));
+  }
+
+  const data = {
+    labels: coinTimestamp,
+    datasets: [
+      {
+        label: 'Price In USD',
+        data: coinPrice,
+        fill: false,
+        backgroundColor: '#0071bd',
+        borderColor: '#0071bd',
+      },
+    ],
+  };
+
+  const options = {
+    scales: {
+      yAxis: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  };
+
   return (
     <>
       <Row className='chart-header'>
@@ -20,6 +60,7 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
           </Title>
         </Col>
       </Row>
+      <Line data={data} options={options} />
     </>
   )
 }

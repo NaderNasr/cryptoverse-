@@ -6,6 +6,7 @@ import { Col, Row, Typography, Select } from 'antd'
 import { MoneyCollectOutlined, DollarCircleOutlined, FundOutlined, ExclamationCircleOutlined, StopOutlined, TrophyOutlined, ThunderboltOutlined, NumberOutlined, CheckOutlined } from '@ant-design/icons'
 import { useGetCryptosDetailsQuery, useGetCryptoHistoryQuery } from '../services/cryptoAPI.js'
 import LineChart from './charts/LineChart'
+import Loader from './Loader.jsx';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -19,7 +20,7 @@ const Details = () => {
 
   const cryptoDetails = data?.data?.coin;
   // console.log(data)
-  const time = ['3 hours', '24 hours', '7 days', '30 days', '1 year', '3 months', '3 years', '5 years'];
+  const time = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y'];
 
   const stats = [
     { title: 'Rank', value: cryptoDetails?.rank, icon: <NumberOutlined /> },
@@ -37,7 +38,7 @@ const Details = () => {
     { title: 'Circulating Supply', value: `$ ${cryptoDetails?.supply?.circulating && millify(cryptoDetails?.supply?.circulating)}`, icon: <ExclamationCircleOutlined /> },
   ];
 
-  if(isFetching) return 'Loading... '
+  if(isFetching) return <Loader/>
 
   return (
     <Col className="coin-detail-container">
@@ -47,7 +48,7 @@ const Details = () => {
         </Title>
         <p>{cryptoDetails?.name} live price in US Dollar (USD). View value statistics, market capital and supply.</p>
       </Col>
-      <Select defaultValue='7 days' placeholder='Select Time Period' className='select-timeperiod' onChange={(value) => setTimePeriod(value)} style={{ width: '100%' }}>
+      <Select defaultValue='24h' placeholder='Select Time Period' className='select-timeperiod' onChange={(value) => setTimePeriod(value)} style={{ width: '100%' }}>
         {time.map((date) => <Option key={date}>{date}</Option>)}
       </Select>
       {/* LineChart Start */}
@@ -100,7 +101,7 @@ const Details = () => {
         <Row className='coin-desc'>
           <Title level={3} className='coin-details-heading'>
             What is {cryptoDetails?.name}
-            {/* {parse(cryptoDetails?.description)} */}
+            {parse(cryptoDetails?.description)}
           </Title>
         </Row>
         <Col className='coin-links'>

@@ -3,6 +3,7 @@ import { Row, Col, Avatar, Select, Typography, Card } from 'antd'
 import moment from 'moment';
 import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
 import { useGetCryptosQuery } from '../services/cryptoAPI';
+import Loader from './Loader';
 const demoImageUrl = 'https://static.news.bitcoin.com/wp-content/uploads/2022/06/pwc-btc.jpg'
 
 const { Text, Title } = Typography
@@ -12,11 +13,9 @@ const { Option } = Select
 const News = ({ simplified }) => {
 
   const [newsCategory, setNewsCategory] = useState('Cryptocurrency');
-  // const { data } = useGetCryptoNewsQuery(100);
   const { data: cryptoNews } = useGetCryptoNewsQuery({ newsCategory, count: simplified ? 6 : 12 });
-  console.log(cryptoNews?.value)
   const { data } = useGetCryptosQuery (100)
-  if (!cryptoNews?.value) return 'loading...'
+  if (!cryptoNews?.value) return <Loader/>
 
   return (
     <Row gutter={[24, 24]}>
